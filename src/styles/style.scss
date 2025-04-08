@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Variables
+$device-width: 950px;
+$large-device: 1300px;
+$grey: #8a8a8a;
+$font-size-small: 14px;
+$normal-font-size: 18px;
+
+@font-face {
+  font-family: "Baskier Circle";
+  src: url("/basier-font.woff2") format(woff2);
+  font-display: swap;
+}
+
+main {
+  background: linear-gradient(to left, #361212, #0c1929);
+  color: white;
+  height: 100vh;
+  grid-template-columns: repeat(1, 1fr);
+  font-family: "Baskier Circle";
+}
+
+// styling for ihe include & other variables
+@mixin flexBox($direction, $gap, $align, $justify) {
+  display: flex;
+  flex-direction: $direction;
+  gap: $gap;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+aside {
+  @include flexBox(column, 28px, start, start);
+  padding: 20px;
+
+  .logo--img {
+    width: auto;
+    display: none;
+    height: 40px;
+    object-fit: cover;
+    @media (min-width: $device-width) {
+      display: block;
+    }
+  }
+
+  nav {
+    ul {
+      @include flexBox(column, 20px, start, start);
+      list-style: none;
+      color: $grey;
+      font-size: $normal-font-size;
+
+      li {
+        transition: color 0.3s linear;
+        cursor: pointer;
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
