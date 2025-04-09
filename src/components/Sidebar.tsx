@@ -1,6 +1,8 @@
 import { linkData } from "../data/musicData";
+import { useMusicContext } from "../lib/store/Store";
 
 const Sidebar = () => {
+  const { tab, setTab, setTitle, setShowNav, showNav } = useMusicContext();
   return (
     <aside>
       <header>
@@ -8,7 +10,19 @@ const Sidebar = () => {
         <nav className="nav">
           <ul>
             {linkData?.map((link, index) => (
-              <li key={index}>{link.title}</li>
+              <li
+                className={`${tab === link.label && "active"}`}
+                onClick={() => {
+                  setTab(link.label);
+                  setTitle(link.title);
+                  if (!showNav) {
+                    setShowNav(true);
+                  }
+                }}
+                key={index}
+              >
+                {link.title}
+              </li>
             ))}
           </ul>
         </nav>

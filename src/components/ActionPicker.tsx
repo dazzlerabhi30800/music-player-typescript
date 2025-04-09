@@ -3,7 +3,9 @@ import { useMusicContext } from "../lib/store/Store";
 
 export const ActionPickerFav = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const { favData, handleFav, currSong } = useMusicContext();
   const [showAction, setShowAction] = useState(false);
+  const isFav = favData.findIndex((item) => item.id === currSong.id);
   return (
     <div ref={ref} className="action--wrapper">
       <button
@@ -13,7 +15,10 @@ export const ActionPickerFav = () => {
         <i className="bi bi-three-dots"></i>
       </button>
       {showAction && (
-        <button className="favorite--btn">
+        <button
+          onClick={() => handleFav(isFav >= 0 ? true : false)}
+          className={`favorite--btn ${isFav >= 0 && "favorite"}`}
+        >
           <i className="bi bi-heart-fill"></i>
         </button>
       )}

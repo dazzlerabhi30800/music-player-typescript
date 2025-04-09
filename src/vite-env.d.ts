@@ -16,6 +16,8 @@ declare module "csstype" {
   interface Properties {
     // Add your custom properties here
     "--background-size"?: string;
+    "--bg-1"?: string;
+    "--bg-2"?: string;
     // Add more custom properties as needed
   }
 }

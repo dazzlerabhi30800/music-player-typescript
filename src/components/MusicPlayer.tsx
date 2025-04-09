@@ -12,12 +12,20 @@ const MusicPlayer = () => {
     setTotalDuration,
     setProgressVal,
     setDuration,
+    setLoading,
+    loading,
+    nextIndex,
+    prevIndex,
+    handleRecent,
+    title,
   } = useMusicContext();
   const [isPlaying, setIsPlaying] = useState(false);
   const handleDuration = () => {
     setTotalDuration(Math.floor(audioRef?.current?.duration!));
-    // yet to implement this functionality
-    // if (playerRef?.current) {};
+    if (!playerRef?.current) return;
+    audioRef?.current.play();
+    setIsPlaying(true);
+    setLoading(false);
   };
 
   const handleTimeUpdate = () => {
@@ -37,19 +45,30 @@ const MusicPlayer = () => {
   }, []);
 
   useEffect(() => {
-    if (!isPlaying) {
+    if (!playerRef?.current) return;
+    if (!audioRef?.current) return;
+    setLoading(true);
+    audioRef.current.src = currSong.musicUrl;
+    handleRecent(currSong.id);
+  }, [currSong]);
+
+  const handlePlaying = () => {
+    if (!isPlaying && !loading) {
+      audioRef?.current.play();
+      setIsPlaying(true);
+      handleRecent(currSong.id);
+    } else {
       audioRef?.current.pause();
-      return;
+      setIsPlaying(false);
     }
-    audioRef?.current.play();
-  }, [isPlaying]);
+  };
 
   return (
     <div className="music--player">
       <div className="music--container">
         <div className="song--header">
-          <h3>Song Name</h3>
-          <p>Artist Name</p>
+          <h3>{currSong.title}</h3>
+          <p>{currSong.artistName}</p>
         </div>
         {/* Player */}
         <div className="player--wrapper">
@@ -59,19 +78,25 @@ const MusicPlayer = () => {
             <ActionPickerFav />
             <div className="song--playback">
               <ButtonComp
-                onClick={() => console.log("hello")}
+                onClick={prevIndex}
                 buttonClass="control--btn"
                 iconClass="bi bi-rewind-fill"
               />
 
               <ButtonComp
-                onClick={() => setIsPlaying((prev) => !prev)}
+                onClick={handlePlaying}
                 buttonClass="control--btn play--btn"
-                iconClass={isPlaying ? "big bi-pause-fill" : "bi bi-play-fill"}
+                iconClass={
+                  loading
+                    ? "bi bi-arrow-clockwise spin"
+                    : isPlaying
+                    ? "big bi-pause-fill"
+                    : "bi bi-play-fill"
+                }
               />
 
               <ButtonComp
-                onClick={() => console.log("hello")}
+                onClick={nextIndex}
                 buttonClass="control--btn"
                 iconClass="bi bi-fast-forward-fill"
               />

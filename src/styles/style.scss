@@ -21,6 +21,7 @@ button {
   border: none;
   outline: none;
   cursor: pointer;
+  background: none;
 }
 
 html,
@@ -28,6 +29,7 @@ body {
   width: 100%;
   overflow: hidden;
 }
+
 main {
   display: grid;
   --bg-1: #292929;
@@ -37,8 +39,14 @@ main {
   height: 100vh;
   grid-template-columns: repeat(1, 1fr);
   font-family: "Baskier Circle";
+  transition: 0.3s linear;
+
   @media (min-width: $device-width) {
     grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media (min-width: $large-device) {
+    grid-template-columns: repeat(10, 1fr);
   }
 }
 
@@ -60,10 +68,15 @@ main {
 aside {
   @include flexBox(column, 0, start, space-between);
   height: fit-content;
+
   @media (min-width: $device-width) {
     height: 100%;
     padding: 40px;
     grid-column: span 1;
+  }
+
+  @media (min-width: $large-device) {
+    grid-column: span 2;
   }
 
   & > img {
@@ -73,6 +86,7 @@ aside {
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid $grey;
+
     @media (min-width: $device-width) {
       display: block;
     }
@@ -87,6 +101,7 @@ aside {
       display: none;
       height: 40px;
       object-fit: cover;
+
       @media (min-width: $device-width) {
         display: block;
       }
@@ -94,6 +109,7 @@ aside {
 
     nav {
       width: 100%;
+
       ul {
         $direction: row;
         list-style: none;
@@ -104,6 +120,9 @@ aside {
         @media (min-width: $device-width) {
           flex-direction: column;
           gap: 20px;
+        }
+
+        @media (min-width: $large-device) {
           font-size: $normal-font-size;
         }
 
@@ -116,10 +135,17 @@ aside {
           color: $grey;
           cursor: pointer;
           transition: color 0.3s linear, border 0.5s ease;
+
+          &.active {
+            color: white;
+            border-color: white;
+          }
+
           &:hover {
             color: white;
             border-color: white;
           }
+
           @media (min-width: $device-width) {
             padding: 0;
             border: none;
@@ -136,41 +162,68 @@ aside {
   @include flexBox(column, 30px, start, start);
   width: 100%;
   position: fixed;
-  height: 90%;
+  height: 95.1%;
   left: 0;
   bottom: 0;
   transform: translateY(100%);
+  background: linear-gradient(108.18deg, var(--bg-1) 2.46%, var(--bg-2) 99.84%);
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  padding: 30px 20px;
+
   &.show {
     transform: translateY(0);
   }
+
+  .menu--btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 22px;
+    color: white;
+    &:hover {
+      color: #ccc;
+    }
+    @media (min-width: $device-width) {
+      display: none;
+    }
+  }
+
   @media (min-width: $device-width) {
     position: static;
     height: 100%;
     transform: translateY(0);
     grid-column: span 2;
+    background: none;
+    padding: 40px 20px;
   }
-  padding: 40px 20px;
+
+  @media (min-width: $large-device) {
+    grid-column: span 3;
+  }
 
   .music--search {
     position: relative;
     width: 100%;
+
     input {
       display: flex;
-      padding: 10px;
+      padding: 14px 10px;
       border-radius: 8px;
       background: transparent;
       border: 1px solid $grey;
       color: #fff;
       font-size: 14px;
       width: 100%;
+
       &:focus {
         outline: none;
       }
+
       &::placeholder {
         color: $grey;
       }
     }
+
     span {
       position: absolute;
       top: 50%;
@@ -180,18 +233,33 @@ aside {
       font-size: 16px;
     }
   }
+
+  .empty--list {
+    flex: 1;
+    height: inherit;
+    width: 100%;
+    @include flexBox(row, 0, center, center);
+    p {
+      font-size: 16px;
+    }
+  }
+
   .music--container {
     overflow-y: auto;
-    padding: 10px 15px 10px 0;
+    padding: 10px 10px 10px 0;
+    height: 100%;
+
     &::-webkit-scrollbar {
       background: transparent;
       width: 4px;
     }
+
     &::-webkit-scrollbar-thumb {
       background: rgb(182, 181, 181);
       display: none;
       border-radius: 8px;
     }
+
     &:hover::-webkit-scrollbar-thumb {
       opacity: 1;
       display: block;
@@ -199,6 +267,7 @@ aside {
 
     @include flexBox(column, 10px, start, start);
     width: 100%;
+
     .music--comp {
       @include flexBox(row, 0, center, space-between);
       width: 100%;
@@ -207,22 +276,57 @@ aside {
       cursor: pointer;
       transition: background-color 0.3s linear;
 
+      &.active {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
       &:hover {
         background-color: #ffffff28;
       }
+
+      .duration {
+        font-size: $normal-font-size;
+        @media (min-width: $device-width) {
+          font-size: $font-size-small;
+        }
+        @media (min-width: $large-device) {
+          font-size: $normal-font-size;
+        }
+      }
+
       .music--info {
         @include flexBox(row, 16px, center, center);
+
         .music--art {
           width: 48px;
           height: 48px;
           object-fit: cover;
           border-radius: 50%;
+          @media (min-width: $device-width) {
+            width: 35px;
+            height: 35px;
+          }
+
+          @media (min-width: $large-device) {
+            width: 48px;
+            height: 48px;
+          }
         }
+
         .music--detail {
           @include flexBox(column, 5px, start, start);
+
           h2 {
             font-size: 18px;
+            @media (min-width: $device-width) {
+              font-size: 14px;
+            }
+
+            @media (min-width: $large-device) {
+              font-size: 18px;
+            }
           }
+
           p {
             font-size: 14px;
             color: $grey;
@@ -238,16 +342,25 @@ aside {
   height: inherit;
   padding: 30px;
   @include flexBox(row, 0, center, center);
+
   @media (min-width: $device-width) {
     grid-column: span 3;
   }
+
+  @media (min-width: $large-device) {
+    grid-column: span 5;
+  }
+
   .music--container {
     width: clamp(350px, 90%, 450px);
     @include flexBox2(column, 40px);
+
     .song--header {
+      @include flexBox2(column, 10px);
       h3 {
         font-size: 28px;
       }
+
       p {
         font-size: 16px;
         color: $grey;
@@ -257,15 +370,24 @@ aside {
     .player--wrapper {
       @include flexBox2(column, 30px);
       width: 100%;
+
       & > img {
         width: 100%;
         height: 450px;
         border-radius: 8px;
+        @media (min-width: $device-width) {
+          height: 400px;
+        }
+
+        @media (min-width: $large-device) {
+          height: 450px;
+        }
       }
 
       .progress--bar {
         width: 100%;
         @include flexBox2(column, 16px);
+
         input[type="range"] {
           --background-size: 0%;
           -webkit-appearance: none;
@@ -296,8 +418,10 @@ aside {
             border-radius: 50%;
           }
         }
+
         .song--duration--container {
           @include flexBox(row, 0, center, space-between);
+
           p {
             font-size: 15px;
             color: white;
@@ -308,8 +432,10 @@ aside {
 
       .song--controls {
         @include flexBox(row, 0, center, space-between);
+
         .song--playback {
           @include flexBox(row, 12px, center, start);
+
           .control--btn {
             @include flexBox(row, 0, center, center);
             width: 48px;
@@ -317,14 +443,18 @@ aside {
             font-size: 30px;
             color: $grey;
             transition: 0.3s linear;
+
             &:hover {
               color: white;
             }
+
             background: none;
+
             &.play--btn {
               background: white;
               border-radius: 50%;
               color: black;
+
               &:hover {
                 opacity: 0.7;
               }
@@ -338,6 +468,7 @@ aside {
 
 .action--wrapper {
   position: relative;
+
   .action--btn {
     width: 48px;
     height: 48px;
@@ -346,6 +477,7 @@ aside {
     color: #cccccc;
     background: rgba(255, 255, 255, 0.16);
     transition: 0.3s linear;
+
     &:hover {
       background: rgba(255, 255, 255, 0.21);
     }
@@ -366,6 +498,12 @@ aside {
     border: 2px solid $grey;
     color: $grey;
     transition: 0.3s linear;
+
+    &.favorite {
+      border-color: $red;
+      color: $red;
+    }
+
     &:hover {
       border-color: $red;
       color: $red;
@@ -387,11 +525,27 @@ aside {
     border: 2px solid $grey;
     color: $grey;
     transition: 0.3s linear;
+
     &:hover {
       border-color: $red;
     }
+
     input {
       width: 100%;
     }
   }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
 }
