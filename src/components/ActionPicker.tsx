@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useMusicContext } from "../lib/store/Store";
 
 export const ActionPickerFav = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,12 +25,17 @@ export const ActionPickerVolume = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [showAction, setShowAction] = useState(false);
   const [volume, setVolume] = useState(50);
+  const { audioRef } = useMusicContext();
 
   const handleClick = (e: MouseEvent) => {
     if (ref.current && !ref.current.contains(e.target as Node)) {
       setShowAction(false);
     }
   };
+  useEffect(() => {
+    if (!audioRef?.current) return;
+    audioRef.current.volume = volume / 100;
+  }, [volume]);
 
   useEffect(() => {
     document.addEventListener("click", handleClick);
